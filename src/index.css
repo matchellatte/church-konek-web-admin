@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom moving gradient for dark shades */
+.bg-gradient-dark {
+  background: linear-gradient(
+    90deg,
+    #2C3E50,
+    #1F2937,
+    #2A2F3A,
+    #2C3E50
+  );
+  background-size: 400% 400%;
+}
