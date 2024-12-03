@@ -1,17 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { supabase } from "../utils/supabaseClient";
-import { Bar, Doughnut } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-} from "chart.js";
-
-ChartJS.register(ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
+import StatsCards from "../components/StatsCards";
+import DoughnutChart from "../components/DoughnutChart";
+import BarChart from "../components/BarChart";
 
 interface Stats {
   total: number;
@@ -77,7 +68,6 @@ const DashboardOverview: React.FC = () => {
     fetchStats();
   }, []);
 
-  // Doughnut Chart Data
   const doughnutData = useMemo(() => {
     return {
       labels: ["Pending", "Approved", "Canceled", "Completed"],
@@ -96,15 +86,15 @@ const DashboardOverview: React.FC = () => {
     plugins: {
       legend: {
         labels: {
-          color: "#ffffff", // Text color for labels
+          color: "#ffffff",
           font: {
             size: 14,
           },
-          padding: 30, // Add spacing between legend items
-          usePointStyle: true, // Use circular points
+          padding: 30,
+          usePointStyle: true,
         },
-        position: "bottom" as const, // Use the literal type "bottom"
-        align: "center" as const, // Align the legend to the center
+        position: "bottom" as const,
+        align: "center" as const,
       },
       tooltip: {
         backgroundColor: "#2c3e50",
@@ -116,10 +106,7 @@ const DashboardOverview: React.FC = () => {
     },
     maintainAspectRatio: false,
   };
-  
-  
 
-  // Bar Chart Data
   const barData = useMemo(() => {
     return {
       labels: serviceStats.map((stat) => stat.service_name),
@@ -156,54 +143,10 @@ const DashboardOverview: React.FC = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold mb-6">Dashboard Overview</h1>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-8">
-        <div className="bg-gray-800 p-4 rounded-lg shadow">
-          <h2 className="text-lg font-semibold">Total Appointments</h2>
-          <p className="text-2xl font-bold">{stats.total}</p>
-        </div>
-        <div className="bg-gray-800 p-4 rounded-lg shadow">
-          <h2 className="text-lg font-semibold">Pending</h2>
-          <p className="text-2xl font-bold">{stats.pending}</p>
-        </div>
-        <div className="bg-gray-800 p-4 rounded-lg shadow">
-          <h2 className="text-lg font-semibold">Approved</h2>
-          <p className="text-2xl font-bold">{stats.approved}</p>
-        </div>
-        <div className="bg-gray-800 p-4 rounded-lg shadow">
-          <h2 className="text-lg font-semibold">Canceled</h2>
-          <p className="text-2xl font-bold">{stats.canceled}</p>
-        </div>
-        <div className="bg-gray-800 p-4 rounded-lg shadow">
-          <h2 className="text-lg font-semibold">Completed</h2>
-          <p className="text-2xl font-bold">{stats.completed}</p>
-        </div>
-      </div>
-
-      {/* Graphs */}
+      <StatsCards stats={stats} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Doughnut Chart */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow">
-          <h2 className="text-lg font-semibold mb-9 text-gray-200">Appointment Status Distribution</h2>
-          {loading ? (
-            <p className="text-gray-400">Loading...</p>
-          ) : (
-            <div className="relative">
-              <Doughnut data={doughnutData} options={doughnutOptions} />
-            </div>
-          )}
-        </div>
-
-        {/* Bar Chart */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow">
-          <h2 className="text-lg font-semibold mb-4 text-gray-200">Appointments by Service</h2>
-          {loading ? (
-            <p className="text-gray-400">Loading...</p>
-          ) : (
-            <Bar data={barData} options={barOptions} />
-          )}
-        </div>
+        <DoughnutChart data={doughnutData} options={doughnutOptions} loading={loading} />
+        <BarChart data={barData} options={barOptions} loading={loading} />
       </div>
     </div>
   );
