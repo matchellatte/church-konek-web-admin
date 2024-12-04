@@ -4,7 +4,7 @@ interface Stats {
   total: number;
   pending: number;
   approved: number;
-  canceled: number;
+  cancelled: number;
   completed: number;
 }
 

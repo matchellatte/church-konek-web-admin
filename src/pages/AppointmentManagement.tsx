@@ -5,7 +5,7 @@ interface Appointment {
   appointment_id: string;
   user_full_name: string;
   user_profile_image?: string;
-  service_name: string;
+  name: string;
   appointment_date: string;
   status: string;
   created_at: string;
@@ -38,7 +38,7 @@ const Appointments: React.FC = () => {
             status,
             created_at,
             users (full_name, profile_image),
-            services (service_name)
+            services (name)
           `
           );
 
@@ -50,7 +50,7 @@ const Appointments: React.FC = () => {
           user_full_name: appointment.users?.full_name || "Unknown User",
           user_profile_image:
             appointment.users?.profile_image || "/images/default-profile-icon.jpg", // Default profile image
-          service_name: appointment.services?.service_name || "Unknown Service",
+          name: appointment.services?.name || "Unknown Service",
           appointment_date: appointment.appointment_date,
           status: appointment.status,
           created_at: appointment.created_at,
@@ -113,7 +113,7 @@ const Appointments: React.FC = () => {
   const filteredAppointments = appointments.filter(
     (appointment) =>
       appointment.user_full_name.toLowerCase().includes(searchQuery) ||
-      appointment.service_name.toLowerCase().includes(searchQuery) ||
+      appointment.name.toLowerCase().includes(searchQuery) ||
       appointment.status.toLowerCase().includes(searchQuery)
   );
 
@@ -158,7 +158,7 @@ const Appointments: React.FC = () => {
             className="px-4 py-2 rounded-md bg-gray-700 text-gray-200 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#ffbd59]"
           >
             <option value="user_full_name">Sort by User</option>
-            <option value="service_name">Sort by Service</option>
+            <option value="name">Sort by Service</option>
             <option value="status">Sort by Status</option>
             <option value="appointment_date">Sort by Appointment Date</option>
             <option value="created_at">Sort by Created At</option>
@@ -197,7 +197,7 @@ const Appointments: React.FC = () => {
                     />
                     <span>{appointment.user_full_name}</span>
                   </td>
-                  <td className="py-3 px-4">{appointment.service_name}</td>
+                  <td className="py-3 px-4">{appointment.name}</td>
                   <td className="py-3 px-4">
                     {formatDate(appointment.appointment_date)}
                   </td>

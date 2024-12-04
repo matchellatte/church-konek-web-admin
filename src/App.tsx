@@ -5,6 +5,8 @@ import AdminLayout from "./pages/AdminLayout";
 import Dashboard from "./pages/DashboardOverview";
 import Appointments from "./pages/AppointmentManagement";
 import Users from "./pages/Users";
+import ServiceDetails from "./components/ServiceDetails";
+import FirstCommunion from "./pages/FirstCommunion";
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -35,6 +37,9 @@ const App: React.FC = () => {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="appointments" element={<Appointments />} />
           <Route path="users" element={<Users />} />
+          <Route path="/admin/services/:serviceName" element={<ServiceDetails />} />
+          <Route path="/admin/services/first-communion" element={<FirstCommunion />} />
+
         </Route>
       </Routes>
     </Router>
